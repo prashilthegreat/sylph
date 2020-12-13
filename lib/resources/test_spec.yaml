@@ -29,7 +29,7 @@ phases:
 
       # install flutter
       - echo "Install flutter"
-      - FLUTTER_VERSION='v1.12.13+hotfix.8-stable'
+      - FLUTTER_VERSION='1.22.4-stable'
       - >-
         if [ $DEVICEFARM_DEVICE_PLATFORM_NAME = "Android" ];
         then
@@ -94,8 +94,8 @@ phases:
       # - bin/py.test tests/ --junit-xml $DEVICEFARM_LOG_DIR/junitreport.xml
       - cd flutter_app
       - rm -f .packages # todo: remove from bundle
-      - MAIN=test_driver/main.dart
-      - TESTS='test_driver/main_test.dart'
+      - MAIN=test_driver/app.dart
+      - TESTS='test_driver/app_test.dart'
       - >-
         if [ $DEVICEFARM_DEVICE_PLATFORM_NAME = "Android" ];
         then

@@ -104,13 +104,13 @@ custom_test_runner() {
 
     # stop app on device
     # (if already running)
-    adb shell am force-stop "$app_id"
+    adb shell am force-stop com.parentiv.parentiv.dev
 
     # clear log (to avoid picking up any earlier observatory announcements on re-runs)
     adb logcat -c
 
     # start app on device
-    adb shell am start -a android.intent.action.RUN -f 0x20000000 --ez enable-background-compilation true --ez enable-dart-profiling true --ez enable-checked-mode true --ez verify-entry-points true --ez start-paused true "$app_id/.MainActivity"
+    adb shell am start -a android.intent.action.RUN -f 0x20000000 --ez enable-background-compilation true --ez enable-dart-profiling true --ez enable-checked-mode true --ez verify-entry-points true --ez start-paused true com.parentiv.parentiv.dev/io.flutter.embedding.android.FlutterActivity
 
     # wait for observatory startup on device and get port number
     obs_str=$( (adb logcat -v time &) | grep -m 1 "Observatory listening on")
@@ -138,7 +138,7 @@ custom_test_runner() {
     # run test
     echo "Running integration test $test_path on app $app_id ..."
     export VM_SERVICE_URL=http://127.0.0.1:"$forwarded_port$obs_token"
-    dart "$test_path"
+    dart "$test_path" --flavor dev
 }
 
 # get app id from .apk
@@ -176,7 +176,7 @@ run_no_build() {
   flutter packages get
 
   echo "Running flutter --verbose drive --no-build $test_main"
-  flutter drive --verbose --no-build "$test_main"
+  flutter drive --verbose --no-build "$test_main" --flavor dev
 }
 
 main "$@"
